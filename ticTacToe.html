@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+  <style media="screen">
+    h1 {
+      background: white;
+    }
+    body {
+      background: grey;
+    }
+    div {
+      background: white;
+      width: 450px;
+      height: 450px;
+      outline: 3px solid;
+      margin: auto;
+    }
+    div div {
+      float: left;
+      outline: 1px solid;
+      outline-color: grey;
+      width: 150px;
+      height: 150px;
+      text-align: center;
+      line-height: 150px;
+      font-size: 144px;
+    }
+  </style>
+  <body>
+    <h1 align=center>Tic Tac Toe</h1>
+    <div id="board">
+        <div boardIdx="0" id="0"></div>
+        <div boardIdx="1" id="1"></div>
+        <div boardIdx="2" id="2"></div>
+        <div boardIdx="3" id="3"></div>
+        <div boardIdx="4" id="4"></div>
+        <div boardIdx="5" id="5"></div>
+        <div boardIdx="6" id="6"></div>
+        <div boardIdx="7" id="7"></div>
+        <div boardIdx="8" id="8"></div>
+    </div>
+    <br>
+    <div id="displayDiv" style="height: 40px; outline: 2px solid; text-align: center; line-height: 40px;" class=""></div>
+    <br>
+
+    <div class="" style="height: 80px; text-align: center; line-height: 80px;">
+      <button style="height: 40px; width: 200px;"; type="button" name="button" id="resetButton">Restart Game</button>
+    </div>
+
+    <script>
+    var turnCount = 0;
+    var boardArray = [];
+    var winnerCheck = "";
+    var currentPlayer = "";
+    var winnerFound = false;
+    //set where the listening will take place
+    var buttonClick = document.getElementById('resetButton');
+    //set where the listening will take place
+    buttonClick.addEventListener('click', function(evt) {
+      resetVariables();
+    })
+
+    //set where the listening will take place
+    var boardClick = document.getElementById('board');
+    //this is what happens when the click is heard
+    boardClick.addEventListener('click', function(evt) {
+      console.log(winnerCheck);
+        if (winnerCheck != "") {
+
+        }
+        else if (evt.target.innerHTML != "") {
+      } else if (evt.target.tagName === 'DIV' && turnCount%2 == 0) {
+        var idx = evt.target.getAttribute('boardIdx');
+        evt.target.innerHTML = "X";
+        turnCount++;
+        boardArray[idx] = "X";
+        currentPlayer = "X";
+        console.log(turnCount);
+        console.log(idx);
+        console.log(boardArray);
+        checkForWinner();
+      } else if(evt.target.tagName === 'DIV' && turnCount%2 == 1){
+        var idx = evt.target.getAttribute('boardIdx');
+        evt.target.innerHTML = "O";
+        turnCount++;
+        boardArray[idx] = "O";
+        currentPlayer = "O"
+        console.log(turnCount);
+        console.log(idx);
+        console.log(boardArray);
+        checkForWinner();
+      }
+    }
+  );
+
+function checkForWinner() {
+  var a = boardArray;
+  if (((a[0] === a[1]) && (a[0] === a[2]) && (a[0] !== undefined)) ||  // top row
+      (a[3] === a[4] && a[4] === a[5] && a[3] !== undefined) ||  // mid row
+      (a[6] === a[7] && a[7] === a[8] && a[6] !== undefined) ||  // bottom row
+
+      (a[0] === a[3] && a[3] === a[6] && a[0] !== undefined) ||  // left col
+      (a[1] === a[4] && a[4] === a[7] && a[1] !== undefined) ||  // mid col
+      (a[2] === a[5] && a[5] === a[8] && a[2] !== undefined) ||  // right col
+
+      (a[0] === a[4] && a[4] === a[8] && a[0] !== undefined) ||  // topleft to bottom right
+      (a[2] === a[4] && a[4] === a[6] && a[2] !== undefined)) {
+    winnerCheck = currentPlayer;
+    winnerFound = true;
+    document.getElementById('displayDiv').innerHTML = "Player " + currentPlayer + " is the winner!  Click the button below to play again.";
+    console.log("someone has won the game");
+    //instead of an alert, just use div that shows the "winner" or "tie" message
+    //create a global variable DONE that is initialized as FALSE,
+    //and is reset to TRUE if there is a winner.
+    //check this variable at the beginning of the event listener
+    //if it's true, it will keep the players from playing further.
+    //add a button to reset the board.  don't do it automatically.
+    //
+  } else if (turnCount ===9 && winnerCheck === "") {
+    document.getElementById('displayDiv').innerHTML = "It's a draw.  Click the button below to restart the game.";
+  }
+};
+//add a reset button that fires this function so the user can restart the game early.
+function resetVariables() {
+  turnCount = 0;
+  boardArray = [];
+  winnerCheck = "";
+  currentPlayer = "";
+  document.getElementById('displayDiv').innerHTML = '';
+  for (var i = 0; i < 9; i++) {
+    document.getElementById(i).innerHTML = '';
+  }
+};
+
+    </script>
+
+  </body>
+</html>
